@@ -56,11 +56,15 @@ for i, t in enumerate(product):
   price = t.find_element(By.CSS_SELECTOR, 'span.price_num__S2p_v').text 
   reviews = t.find_element(By.CSS_SELECTOR, 'em.product_num__fafe5').text + "개"
   link = t.find_element(By.CSS_SELECTOR, 'div.product_title__Mmw2K > a').get_attribute("href")
+  print("크롤링중...")
   data.append([name, price, reviews, link])
-  
+  print("엑셀에 데이터 추가중...")
+
+print( )
+print("크롤링 완료!")
 df = pd.DataFrame(data, columns=['제품명', '가격','리뷰', '링크'])
 df.to_excel(input_product+'.xlsx', index=False)
-
+print("엑셀 데이터 추가 완료!", "\n")
 
 driver.quit()
 
@@ -94,6 +98,7 @@ for column_cells in worksheet.columns:
 
 # 엑셀 파일 저장
 workbook.save(input_product+'.xlsx')
+print("엑셀파일 저장!","\n")
 
 ## 메일 전송 ## 
 import smtplib
@@ -102,7 +107,6 @@ from email.header import Header
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email import charset
-import os
 
 # 한글 인코딩 설정
 charset.add_charset('utf-8', charset.QP, charset.QP, 'utf-8')
@@ -110,7 +114,10 @@ charset.add_charset('utf-8', charset.QP, charset.QP, 'utf-8')
 smtp = smtplib.SMTP("smtp.naver.com", 587)
 smtp.ehlo()
 smtp.starttls()
-smtp.login('quan0808', 'Quanbin0905@') # 네이버 아이디, 비밀번호
+
+input_ID = pyautogui.prompt("네이버 ID 입력")
+input_PW = pyautogui.prompt("네이버 PW 입력")
+smtp.login(input_ID, input_PW) # 네이버 아이디, 비밀번호
 
 input_email = pyautogui.prompt("받는 사람 이메일")
 
@@ -118,7 +125,7 @@ me = 'quan0808@naver.com' # 보내는 이메일
 you = input_email # 받는 이메일
 subject = input_product + " 추천 목록"
 
-input_message = pyautogui.prompt("내용 입력")
+input_message = pyautogui.prompt("본문 내용 입력")
 
 message = input_message
 
@@ -141,3 +148,15 @@ with open(file_name, 'rb') as excel_file:
 # 메일 보내기
 smtp.sendmail(me, you, msg.as_string())
 smtp.quit()
+print("이메일 전송 완료!!","\n")
+
+## 메일 전송 확인 ##
+driver = webdriver.Chrome(service=service, options=options)
+driver.maximize_window()
+url = 'http://naver.com'
+driver.get(url)
+driver.implicitly_wait(1)
+
+elem = driver.find_element(by=By.CLASS_NAME, value="link_login")
+elem.click()
+
