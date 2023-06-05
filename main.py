@@ -150,6 +150,34 @@ smtp.sendmail(me, you, msg.as_string())
 smtp.quit()
 print("이메일 전송 완료!!","\n")
 
-## 메일 전송 확인 ##
 
+## 메일 전송 확인 ##
+import pyperclip
+
+driver = webdriver.Chrome(service=service, options=options)
+driver.maximize_window()
+url = 'http://naver.com'
+driver.get(url)
+driver.implicitly_wait(1)
+
+elem = driver.find_element(By.CLASS_NAME, "MyView-module__link_login___HpHMW")
+elem.click()
+
+#네이버 아이디 입력
+elem_id = driver.find_element(By.CSS_SELECTOR, '#id')
+elem_id.click()
+pyperclip.copy(input_ID)
+elem_id.send_keys(Keys.CONTROL, 'v')
+time.sleep(1)
+
+#네이버 비밀번호 입력
+elem_pw = driver.find_element(By.CSS_SELECTOR, '#pw')
+elem_pw.click()
+pyperclip.copy(input_PW)
+elem_pw.send_keys(Keys.CONTROL, 'v')
+time.sleep(1)
+
+driver.find_element(By.CSS_SELECTOR,'.btn_login').click()
+
+driver.find_element(By.CSS_SELECTOR,'.service_icon.type_mail').click()
 
