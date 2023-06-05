@@ -151,12 +151,5 @@ smtp.quit()
 print("이메일 전송 완료!!","\n")
 
 ## 메일 전송 확인 ##
-driver = webdriver.Chrome(service=service, options=options)
-driver.maximize_window()
-url = 'http://naver.com'
-driver.get(url)
-driver.implicitly_wait(1)
 
-elem = driver.find_element(by=By.CLASS_NAME, value="link_login")
-elem.click()
 
