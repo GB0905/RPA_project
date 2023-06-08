@@ -116,7 +116,7 @@ smtp.ehlo()
 smtp.starttls()
 
 input_ID = pyautogui.prompt("네이버 ID 입력")
-input_PW = pyautogui.prompt("네이버 PW 입력")
+input_PW = pyautogui.password("네이버 PW 입력")
 smtp.login(input_ID, input_PW) # 네이버 아이디, 비밀번호
 
 input_email = pyautogui.prompt("받는 사람 이메일")
@@ -152,7 +152,7 @@ print("이메일 전송 완료!!","\n")
 
 
 ## 메일 전송 확인 ##
-import pyperclip
+import pyperclip # 캡챠 방지를 위해 복붙 용도로 사용한다.
 
 driver = webdriver.Chrome(service=service, options=options)
 driver.maximize_window()
@@ -180,4 +180,3 @@ time.sleep(1)
 driver.find_element(By.CSS_SELECTOR,'.btn_login').click()
 
 driver.find_element(By.CSS_SELECTOR,'.service_icon.type_mail').click()
-
